@@ -1,0 +1,29 @@
+# Dependencies and build output
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+
+# Secrets: never commit these
+.env
+.env.*
+!.env.example
+*.private.pem
+
+# Local data written at runtime
+.cache/
+gateway/data/receipts.jsonl
+gateway/data/usage.json
+gateway/data/jobs.json
+intelligence/eval/results/
+
+# Demo recordings (the video is published separately)
+/demo/
+
+# Editor and OS files
+.DS_Store
+.vscode/
+.idea/
+.claude/
+*.log

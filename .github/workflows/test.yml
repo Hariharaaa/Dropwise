@@ -1,0 +1,61 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  intelligence:
+    name: Intelligence (registry, claim checker, classifier)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: intelligence
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: intelligence/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+
+  gateway:
+    name: Gateway (sidecar, estimator, budgets, benchmark)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gateway
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: gateway/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+
+  frontend:
+    name: Frontend (lint and build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
